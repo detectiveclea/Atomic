@@ -54,12 +54,6 @@ local it = game:GetService("HttpService"):GenerateGUID(false)
 
 function cash:CreateWindow(image)
 	local window = Instance.new("ScreenGui", cg)
-	window.Name = "Visibility"
-
-	local on = true
-	if Enum.KeyCode.RightShift then
-		on = not on
-	end
 
 	local main = Instance.new("Frame", window)
 	main.BorderSizePixel = 0
