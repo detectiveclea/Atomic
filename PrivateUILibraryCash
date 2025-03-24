@@ -1,54 +1,492 @@
-local shits = http
+local ts = game:GetService("TweenService")
+local uis = game:GetService("UserInputService")
+local itty = Instance.new("Sound", game.ReplicatedStorage)
+local cg = game:GetService("CoreGui")
 
-local sh = shits:CreateWindow("76660679642134") -- the id
+local cash = {}
 
-sh:NewTab("gay")
-local it = sh:NewTab("noob")
+local shit = function(sound)
+	itty.SoundId = sound
+	itty.Volume = 0.3
+	itty:Play()
+end
 
-sh:NewTab("shit")
-sh:NewTab("cumzonee")
+local drag = function(obj, latency)
 
-local jit = it:Section()
-local jit2 = it:Section()
+	toggled = nil
+	input = nil
+	start = nil
 
-jit:AddButton({
-    text = "priter",
-    callback = function()
-        print("gg")    
-    end,
-})
+	function updateInput(input)
+		local Delta = input.Position - start
+		local Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + Delta.X, startPos.Y.Scale, startPos.Y.Offset + Delta.Y)
+		ts:Create(obj, TweenInfo.new(latency), {Position = Position}):Play()
+	end
 
-jit:AddButton({
-    text = "ginger",
-    callback = function()
-        print("gg")    
-    end,
-})
+	obj.InputBegan:Connect(function(inp)
+		if (inp.UserInputType == Enum.UserInputType.MouseButton1) then
+			toggled = true
+			start = inp.Position
+			startPos = obj.Position
+			inp.Changed:Connect(function()
+				if (inp.UserInputState == Enum.UserInputState.End) then
+					toggled = false
+				end
+			end)
+		end
+	end)
 
-jit2:AddToggle({
-    text = "femboy mode",
-    callback = function(f)
-        print(f)    
-    end,
-})
+	obj.InputChanged:Connect(function(inp)
+		if (inp.UserInputType == Enum.UserInputType.MouseMovement) then
+			input = inp
+		end
+	end)
 
-jit2:AddSlider({
-    text = "gyatt expansion",
-    min = 0,
-    max = 10,
-    callback = function(f)
-        print(f)    
-    end,
-})
+	uis.InputChanged:Connect(function(inp)
+		if (inp == input and toggled) then
+			updateInput(inp)
+		end
+	end)
+end
 
-jit:AddTextbox({
-    text = "genius",
-    Keybind = Enum.KeyCode.X,
-    callback = function(x)
-        print(x)
-    end,
-})
+local it = game:GetService("HttpService"):GenerateGUID(false)
 
-jit:AddSeperator({
-    text = "god is horrible"
-})
+for i, v in pairs(cg:GetChildren()) do
+	if v.Name == "Visibility" then
+		v:Destroy()
+	end
+end
+
+
+function cash:CreateWindow(image)
+	local window = Instance.new("ScreenGui", cg)
+	window.Name = "Visibility"
+
+	local main = Instance.new("Frame", window)
+	main.BorderSizePixel = 0
+	main.BackgroundColor3 = Color3.fromRGB(35, 31, 41)
+	main.Size = UDim2.new(0, 564,0, 450)
+
+
+
+	drag(main, 0.08)
+
+	local mcorn = Instance.new("UICorner", main)
+	mcorn.CornerRadius = UDim.new(0 ,6)
+
+	local mstrk = Instance.new("UIStroke", main)
+	mstrk.Transparency = 0.45
+	mstrk.Thickness = 0.6
+	mstrk.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+	mstrk.Color = Color3.fromRGB(92, 68, 148)
+
+	local tabs = Instance.new("Frame", main)
+	tabs.BorderSizePixel = 0
+	tabs.BackgroundColor3 = Color3.fromRGB(31, 28, 37)
+	tabs.Size = UDim2.new(0, 157,0, 430)
+	tabs.Position = UDim2.new(0.016, 0,0.022, 0)
+	tabs.ZIndex = 3
+
+	local tcorn = Instance.new("UICorner", tabs)
+	tcorn.CornerRadius = UDim.new(0 ,6)
+
+	local tstrk = Instance.new("UIStroke", tabs)
+	tstrk.Transparency = 0.45
+	tstrk.Thickness = 0.6
+	tstrk.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+	tstrk.Color = Color3.fromRGB(92, 68, 148)
+
+	local inner = Instance.new("Frame", main)
+	inner.BorderSizePixel = 0
+	inner.BackgroundColor3 = Color3.fromRGB(42, 39, 50)
+	inner.Size = UDim2.new(0, 548,0, 430)
+	inner.Position = UDim2.new(0.016, 0,0.022, 0)
+
+	local icorn = Instance.new("UICorner", inner)
+	icorn.CornerRadius = UDim.new(0 ,6)
+
+	local istrk = Instance.new("UIStroke", inner)
+	istrk.Transparency = 0.59
+	istrk.Thickness = 0.6
+	istrk.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+	istrk.Color = Color3.fromRGB(92, 68, 148)
+
+	local title = Instance.new("ImageLabel", tabs)
+	title.BackgroundTransparency = 1
+	title.ImageTransparency = 0.33
+	title.Size = UDim2.new(0, 136, 0, 119)
+	title.Position = UDim2.new(0.064, 0, 0, 0)
+	title.ZIndex = 3
+	title.Image = "rbxassetid://" .. image
+
+	local tabsholder = Instance.new("Frame", tabs)
+	tabsholder.BorderSizePixel = 0
+	tabsholder.BackgroundTransparency = 1
+	tabsholder.Size = UDim2.new(0, 157,0, 310)
+	tabsholder.Position = UDim2.new(0, 0,0.278, 0)
+	tabsholder.ZIndex = 3
+
+	local thlist = Instance.new("UIListLayout", tabsholder)
+	thlist.HorizontalAlignment = Enum.HorizontalAlignment.Center
+	thlist.Padding = UDim.new(0, 8)
+
+	local tabs = {}
+
+	function tabs:NewTab(tab)
+
+		--// Button
+		local tbbutton = Instance.new("TextButton", tabsholder)
+		tbbutton.BackgroundColor3 = Color3.fromRGB(42, 39, 50)
+		tbbutton.BorderSizePixel = 0
+		tbbutton.Size = UDim2.new(0, 140,0, 25)
+		tbbutton.FontFace = Font.new("rbxassetid://11702779409", Enum.FontWeight.Medium)
+		tbbutton.TextSize = 13
+		tbbutton.TextTransparency = 0.33
+		tbbutton.TextColor3 = Color3.fromRGB(216, 216, 216)
+		tbbutton.Text = tab
+		tbbutton.ZIndex = 3
+
+		local tbcorn = Instance.new("UICorner", tbbutton)
+		tbcorn.CornerRadius = UDim.new(0 ,5)
+
+		local tbstrk = Instance.new("UIStroke", tbbutton)
+		tbstrk.Transparency = 0.63
+		tbstrk.Thickness = 0.8
+		tbstrk.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+		tbstrk.Color = Color3.fromRGB(134, 121, 154)
+
+		local tbgrad = Instance.new("UIGradient", tbstrk)
+		tbgrad.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 0.28125), NumberSequenceKeypoint.new(0.5, 1), NumberSequenceKeypoint.new(1, 0.2809999883174896)})
+
+		local sectholder = Instance.new("Frame", inner)
+		sectholder.BackgroundTransparency = 1
+		sectholder.Position = UDim2.new(0.291, 0,-0, 0)
+		sectholder.Size = UDim2.new(0, 388,0, 431)
+		sectholder.Visible = false
+
+		local TheGrid = Instance.new("UIGridLayout", sectholder)
+		TheGrid.HorizontalAlignment = Enum.HorizontalAlignment.Center
+		TheGrid.VerticalAlignment = Enum.VerticalAlignment.Center
+		TheGrid.FillDirection = Enum.FillDirection.Horizontal
+		TheGrid.CellPadding = UDim2.new(0, 5, 0, 5)
+		TheGrid.CellSize = UDim2.new(0, 185, 0 ,420)
+
+		tbbutton.MouseButton1Down:Connect(function()
+
+			for i, pg in pairs(inner:GetChildren()) do
+				if pg:IsA("Frame") then
+					pg.Visible = false
+				end
+			end
+			sectholder.Visible = true
+
+			for i ,btns in pairs(tabsholder:GetChildren()) do
+				if btns:IsA("TextButton") then
+					ts:Create(btns, TweenInfo.new(0.35, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {TextTransparency = 0.33}):Play()
+				end
+			end
+			ts:Create(tbbutton, TweenInfo.new(0.35, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {TextTransparency = 0.07}):Play()
+
+			for i ,btns in pairs(tabsholder:GetChildren()) do
+				if btns:IsA("TextButton") then
+					ts:Create(btns.UIStroke, TweenInfo.new(0.35, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {Transparency = 0.63}):Play()
+				end
+			end
+			ts:Create(tbbutton.UIStroke, TweenInfo.new(0.35, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {Transparency = 0.17}):Play()
+		end)
+
+		local sections = {}
+
+		function sections:Section()
+			local Sector = Instance.new("Frame", sectholder)
+			Sector.BorderSizePixel = 0
+			Sector.BackgroundColor3 = Color3.fromRGB(35, 31, 41)
+
+			local spadd = Instance.new("UIPadding", Sector)
+			spadd.PaddingTop = UDim.new(0, 8)
+
+			local suic = Instance.new("UICorner", Sector)
+			suic.CornerRadius = UDim.new(0, 6)
+
+			local suis = Instance.new("UIStroke", Sector)
+			suis.Transparency = 0.46
+			suis.Thickness = 0.6
+			suis.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+			suis.Color = Color3.fromRGB(160, 140, 194)
+
+			local sgrad = Instance.new("UIGradient", suis)
+			sgrad.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 0.806), NumberSequenceKeypoint.new(0.5, 0), NumberSequenceKeypoint.new(1, 0.806)})
+
+			local seclist = Instance.new("UIListLayout", Sector)
+			seclist.HorizontalAlignment = Enum.HorizontalAlignment.Center
+			seclist.Padding = UDim.new(0, 8)
+
+			local items = {}
+
+			function items:AddButton(args)
+				if not args.callback or not args.text then return warn("⚠️ incorrect arguments ⚠️") end
+
+				local button = Instance.new("TextButton", Sector)
+				button.BackgroundColor3 = Color3.fromRGB(42, 39, 50)
+				button.BorderSizePixel = 0
+				button.Size = UDim2.new(0, 168,0, 25)
+				button.FontFace = Font.new("rbxassetid://11702779409", Enum.FontWeight.Medium)
+				button.TextSize = 13
+				button.TextTransparency = 0.33
+				button.TextColor3 = Color3.fromRGB(216, 216, 216)
+				button.Text = args.text
+				button.ZIndex = 3
+
+				local bcorn = Instance.new("UICorner", button)
+				bcorn.CornerRadius = UDim.new(0 ,5)
+
+				local bstrk = Instance.new("UIStroke", button)
+				bstrk.Transparency = 0.63
+				bstrk.Thickness = 0.8
+				bstrk.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+				bstrk.Color = Color3.fromRGB(134, 121, 154)
+
+				local bgrad = Instance.new("UIGradient", bstrk)
+				bgrad.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 0.28125), NumberSequenceKeypoint.new(0.5, 1), NumberSequenceKeypoint.new(1, 0.2809999883174896)})
+
+
+				button.MouseButton1Click:Connect(function()
+					args.callback()
+					shit("rbxassetid://17779566040")
+				end)
+				button.MouseEnter:connect(function()
+					ts:Create(button, TweenInfo.new(0.35, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {TextTransparency = 0.17}):Play()
+					ts:Create(bstrk, TweenInfo.new(0.35, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {Transparency = 0.17}):Play()
+				end)
+				button.MouseLeave:connect(function()
+					ts:Create(button, TweenInfo.new(0.35, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {TextTransparency = 0.33}):Play()
+					ts:Create(bstrk, TweenInfo.new(0.35, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {Transparency = 0.63}):Play()
+				end)
+			end
+
+			function items:AddToggle(args)
+				if not args.callback or not args.text then return warn("⚠️ incorrect arguments ⚠️") end
+
+				local toogle = Instance.new("TextLabel", Sector)
+				toogle.BackgroundTransparency = 1
+				toogle.FontFace = Font.new("rbxassetid://11702779409", Enum.FontWeight.Medium)
+				toogle.TextSize = 14
+				toogle.TextTransparency = 0.15
+				toogle.TextColor3 = Color3.fromRGB(193, 193, 193)
+				toogle.Text = args.text
+				toogle.Size = UDim2.new(0, 163,0, 20)
+				toogle.TextXAlignment = Enum.TextXAlignment.Left
+
+				local toggpadding = Instance.new("UIPadding", toogle)
+				toggpadding.PaddingLeft = UDim.new(0, 20)
+
+				local tbtn = Instance.new("TextButton", toogle)
+				tbtn.Text = ""
+				tbtn.BackgroundColor3 = Color3.fromRGB(42, 39, 50)
+				tbtn.BorderSizePixel = 0
+				tbtn.Size = UDim2.new(0, 17,0, 17)
+				tbtn.Position = UDim2.new(-0.158, 0,0.075, 0)
+
+				local togstrk = Instance.new("UIStroke", tbtn)
+				togstrk.Transparency = 0.63
+				togstrk.Thickness = 0.8
+				togstrk.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+				togstrk.Color = Color3.fromRGB(134, 121, 154)
+
+				local togcorn = Instance.new("UICorner", tbtn)
+				togcorn.CornerRadius = UDim.new(0 ,5)
+
+				local toggrad = Instance.new("UIGradient", togstrk)
+				toggrad.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 0.28125), NumberSequenceKeypoint.new(0.5, 1), NumberSequenceKeypoint.new(1, 0.2809999883174896)})
+				toggrad.Rotation = 90
+
+				function toggel()
+					shit("rbxassetid://9119717529")
+					args.toggled = not args.toggled
+					pcall(args.callback, args.toggled)
+					if args.toggled then
+						ts:Create(tbtn, TweenInfo.new(0.6, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {BackgroundColor3 = Color3.fromRGB(126, 112, 165)}):Play()
+					else
+						ts:Create(tbtn, TweenInfo.new(0.6, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {BackgroundColor3 = Color3.fromRGB(42, 39, 50)}):Play()
+					end
+				end
+
+				tbtn.MouseButton1Down:Connect(toggel)
+
+				tbtn.MouseEnter:connect(function()
+					ts:Create(togstrk, TweenInfo.new(0.35, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {Transparency = 0.17}):Play()
+				end)
+				tbtn.MouseLeave:connect(function()
+					ts:Create(togstrk, TweenInfo.new(0.35, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {Transparency = 0.63}):Play()
+				end)
+			end
+
+			function items:AddSlider(args)
+				if not args.callback or not args.text then return warn("⚠️ incorrect arguments ⚠️") end
+				local val
+				local ms = game:GetService("Players").LocalPlayer:GetMouse()
+
+				local slidie = Instance.new("TextLabel", Sector)
+				slidie.BackgroundTransparency = 1
+				slidie.FontFace = Font.new("rbxassetid://11702779409", Enum.FontWeight.Medium)
+				slidie.TextSize = 14
+				slidie.TextTransparency = 0.15
+				slidie.TextColor3 = Color3.fromRGB(193, 193, 193)
+				slidie.Text = args.text
+				slidie.Size = UDim2.new(0, 163,0, 29)
+				slidie.TextXAlignment = Enum.TextXAlignment.Left
+
+				local slbtn = Instance.new("TextButton", slidie)
+				slbtn.Text = ""
+				slbtn.BackgroundColor3 = Color3.fromRGB(42, 39, 50)
+				slbtn.BorderSizePixel = 0
+				slbtn.Size = UDim2.new(0, 168,0, 17)
+				slbtn.Position = UDim2.new(-0.017, 0,0.694, 0)
+
+				local slide = Instance.new("Frame", slbtn)
+				slide.BackgroundColor3 = Color3.fromRGB(126, 112, 165)
+				slide.BackgroundTransparency = 0.3
+				slide.BorderSizePixel = 0
+				slide.Size = UDim2.new(0, 0,0, 17)
+
+				local slistroke = Instance.new("UIStroke", slbtn)
+				slistroke.Transparency = 0.63
+				slistroke.Thickness = 0.8
+				slistroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+				slistroke.Color = Color3.fromRGB(134, 121, 154)
+
+				local togcorn = Instance.new("UICorner", slbtn)
+				togcorn.CornerRadius = UDim.new(0 ,5)
+
+				local slidecorn = Instance.new("UICorner", slide)
+				slidecorn.CornerRadius = UDim.new(0 ,5)
+
+				local toggrad = Instance.new("UIGradient", slistroke)
+				toggrad.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 0.28125), NumberSequenceKeypoint.new(0.5, 1), NumberSequenceKeypoint.new(1, 0.2809999883174896)})
+				toggrad.Rotation = 90
+
+				slbtn.MouseButton1Down:Connect(function() --// Js testing with the tweening idk
+					val = math.floor(((tonumber(args.max) - tonumber(args.min)) / 168 * slide.AbsoluteSize.X) + tonumber(args.min)) or 0
+					pcall(function()
+						args.callback(val)
+						slidie.Text = args.text .. " - " .. val
+					end)
+					-- Slide.Size = UDim2.new(0, math.clamp(ms.X - Slide.AbsoluteSize.X, 0, 203), 0, 9)
+					ts:Create(slide, TweenInfo.new(.07, Enum.EasingStyle.Quint), {Size = UDim2.new(0, math.clamp(ms.X - slide.AbsoluteSize.X, 0, 168), 0, 17)}):Play()
+					moveconnection = ms.Move:Connect(function()
+						val = math.floor((((tonumber(args.max) - tonumber(args.min)) / 168) * slide.AbsoluteSize.X) + tonumber(args.min))
+						pcall(function()
+							args.callback(val)
+							slidie.Text = args.text .. " - " .. val
+						end)
+						-- Slide.Size = UDim2.new(0, math.clamp(ms.X - Slide.AbsolutePosition.X, 0, 203), 0, 9)
+						ts:Create(slide, TweenInfo.new(.07, Enum.EasingStyle.Quint), {Size = UDim2.new(0, math.clamp(ms.X - slide.AbsolutePosition.X, 0, 168), 0, 17)}):Play()
+					end)
+					releaseconnection = uis.InputEnded:Connect(function(Mouse)
+						if Mouse.UserInputType == Enum.UserInputType.MouseButton1 then
+							val = math.floor((((tonumber(args.max) - tonumber(args.min)) / 168) * slide.AbsoluteSize.X) + tonumber(args.min))
+							pcall(function()
+								args.callback(val)
+							end)
+							-- Slide.Size = UDim2.new(0, math.clamp(ms.X - Slide.AbsolutePosition.X, 0, 203), 0, 9)
+							ts:Create(slide, TweenInfo.new(.07, Enum.EasingStyle.Quint), {Size = UDim2.new(0, math.clamp(ms.X - slide.AbsolutePosition.X, 0, 168), 0, 17)}):Play()
+							moveconnection:Disconnect()
+							releaseconnection:Disconnect()
+						end
+					end)
+				end)
+			end
+
+			function items:AddTextbox(args)
+				if not args.callback or not args.text then return warn("⚠️ incorrect arguments ⚠️") end
+
+				local focused = false
+
+				local textbox = Instance.new("TextBox", Sector)
+				textbox.BackgroundColor3 = Color3.fromRGB(42, 39, 50)
+				textbox.BorderSizePixel = 0
+				textbox.Size = UDim2.new(0, 168,0, 25)
+				textbox.FontFace = Font.new("rbxassetid://11702779409", Enum.FontWeight.Medium)
+				textbox.TextSize = 13
+				textbox.TextTransparency = 0.33
+				textbox.TextColor3 = Color3.fromRGB(216, 216, 216)
+				textbox.Text = ""
+				textbox.PlaceholderText = args.text
+				textbox.TextXAlignment = Enum.TextXAlignment.Left
+
+				local tbpadding = Instance.new("UIPadding", textbox)
+				tbpadding.PaddingLeft = UDim.new(0, 15)
+
+				local tbcorn = Instance.new("UICorner", textbox)
+				tbcorn.CornerRadius = UDim.new(0 ,5)
+
+				local tbstrk = Instance.new("UIStroke", textbox)
+				tbstrk.Transparency = 0.63
+				tbstrk.Thickness = 0.8
+				tbstrk.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+				tbstrk.Color = Color3.fromRGB(134, 121, 154)
+
+				local tbgrad = Instance.new("UIGradient", tbstrk)
+				tbgrad.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 0.28125), NumberSequenceKeypoint.new(0.5, 1), NumberSequenceKeypoint.new(1, 0.2809999883174896)})
+
+				textbox.MouseEnter:connect(function()
+					ts:Create(textbox, TweenInfo.new(0.35, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {TextTransparency = 0.17}):Play()
+					ts:Create(tbstrk, TweenInfo.new(0.35, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {Transparency = 0.17}):Play()
+				end)
+				textbox.MouseLeave:connect(function()
+					ts:Create(textbox, TweenInfo.new(0.35, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {TextTransparency = 0.33}):Play()
+					ts:Create(tbstrk, TweenInfo.new(0.35, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {Transparency = 0.63}):Play()
+				end)
+
+				uis.InputEnded:connect(function(key)
+					if key.UserInputType == Enum.UserInputType.MouseButton1 then
+						print("did it")
+					end
+				end)
+
+				uis.InputBegan:Connect(function(key, gameProcessed)
+					if focused and not uis:GetFocusedTextBox() then
+						if key.UserInputType == Enum.UserInputType.Keyboard then
+							if key.KeyCode ~= Enum.KeyCode.Escape then
+								args.Keybind = key.KeyCode
+							end
+							focused = false
+						end
+					else
+						if key.KeyCode == args.Keybind then
+							args.callback(textbox.Text)
+						end
+					end
+				end)
+
+				textbox.FocusLost:connect(function()
+					focused = false
+					args.callback(textbox.Text)
+				end)
+
+			end
+
+			function items:AddSeperator(args)
+				local seper = Instance.new("TextLabel", Sector)
+				seper.BackgroundTransparency = 1
+				seper.TextSize = 9
+				seper.TextTransparency = 0.44
+				seper.TextColor3 = Color3.fromRGB(204, 201, 221)
+				seper.Text = args.text
+				seper.Size = UDim2.new(0, 163,0, 20)
+				seper.TextXAlignment = Enum.TextXAlignment.Left
+			end
+
+			return items
+
+		end
+
+		return sections
+
+	end
+
+	return tabs
+
+end
+
+return cash
