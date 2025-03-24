@@ -62,12 +62,16 @@ function cash:CreateWindow(image)
 	local window = Instance.new("ScreenGui", cg)
 	window.Name = "Visibility"
 
+	local on = true
+	if Enum.KeyCode.RightShift then
+		on = not on
+	end
+
 	local main = Instance.new("Frame", window)
 	main.BorderSizePixel = 0
+	main.Visible = on
 	main.BackgroundColor3 = Color3.fromRGB(35, 31, 41)
 	main.Size = UDim2.new(0, 564,0, 450)
-
-
 
 	drag(main, 0.08)
 
@@ -488,5 +492,7 @@ function cash:CreateWindow(image)
 	return tabs
 
 end
+
+
 
 return cash
