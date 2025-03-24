@@ -1,0 +1,54 @@
+local shits = http
+
+local sh = shits:CreateWindow("76660679642134") -- the id
+
+sh:NewTab("gay")
+local it = sh:NewTab("noob")
+
+sh:NewTab("shit")
+sh:NewTab("cumzonee")
+
+local jit = it:Section()
+local jit2 = it:Section()
+
+jit:AddButton({
+    text = "priter",
+    callback = function()
+        print("gg")    
+    end,
+})
+
+jit:AddButton({
+    text = "ginger",
+    callback = function()
+        print("gg")    
+    end,
+})
+
+jit2:AddToggle({
+    text = "femboy mode",
+    callback = function(f)
+        print(f)    
+    end,
+})
+
+jit2:AddSlider({
+    text = "gyatt expansion",
+    min = 0,
+    max = 10,
+    callback = function(f)
+        print(f)    
+    end,
+})
+
+jit:AddTextbox({
+    text = "genius",
+    Keybind = Enum.KeyCode.X,
+    callback = function(x)
+        print(x)
+    end,
+})
+
+jit:AddSeperator({
+    text = "god is horrible"
+})
