@@ -51,12 +51,6 @@ end
 
 local it = game:GetService("HttpService"):GenerateGUID(false)
 
-for i, v in pairs(cg:GetChildren()) do
-	if v.Name == "Visibility" then
-		v:Destroy()
-	end
-end
-
 
 function cash:CreateWindow(image)
 	local window = Instance.new("ScreenGui", cg)
